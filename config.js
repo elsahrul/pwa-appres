@@ -1,0 +1,1 @@
+var baseUrl = "https://192.168.5.102/admin-absensi/api"

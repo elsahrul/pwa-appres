@@ -23,6 +23,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 
     <title>Profil Page</title>
+    <script src="./config.js"></script>
 </head>
 
 <body style="background-color: 	#F2F4FF">
@@ -74,7 +75,7 @@
                 $('#foto-user').attr('src', localStorage.getItem('foto_profil'))
 
                 $.ajax({
-                    url: `https://192.168.5.102/Admin_absensi/api/profile`,
+                    url: `${baseUrl}/profile`,
                     type: "GET",
                     dataType: "json",
                     success: function (response) {

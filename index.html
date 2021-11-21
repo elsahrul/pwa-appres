@@ -18,7 +18,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
+    <script src="./config.js"></script>
     <title>Halaman Login</title>
 </head>
 
@@ -86,16 +86,16 @@
     <script src="./ping.js"></script>
     <script>
 
-        ping('http://192.168.5.102/').then(function (delta) {
-            alert('Ping time was ' + String(delta) + ' ms');
-        }).catch(function (err) {
-            alert('Could not ping remote URL', err);
-        });
+        // ping('http://192.168.5.102/').then(function (delta) {
+        //     alert('Ping time was ' + String(delta) + ' ms');
+        // }).catch(function (err) {
+        //     alert('Could not ping remote URL', err);
+        // });
 
         $(document).ready(function () {
             $('#btn-login').on('click', function () {
                 $.ajax({
-                    url: `http://192.168.5.102/Admin_absensi/api/auth/login`,
+                    url: `${baseUrl}/auth/login`,
                     data: {
                         email: $('#input-email').val(),
                         password: $('#input-password').val(),
@@ -103,7 +103,7 @@
                     type: "POST",
                     dataType: "json",
                     success: function (response) {
-                        window.location.href = "/pwa-sahrul-main/home.html"
+                        window.location.href = "/pwa-absensi/home.html"
 
                         localStorage.setItem("name", response.data.name)
                         localStorage.setItem("email", response.data.email)

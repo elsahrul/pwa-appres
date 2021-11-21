@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="css/sb-admin-2.min.css">
     <link rel="stylesheet" href="css/mycss.css">
     <title>Absen Masuk</title>
+    <script src="./config.js"></script>
 </head>
 
 <!-- <body>
@@ -112,7 +113,7 @@
                 $('#name-user').html(localStorage.getItem("name"))
                 $('#no-induk-user').html(`${localStorage.getItem("status_no_induk")} ${localStorage.getItem("no_induk")}`)
             } else {
-                window.location.href = `/pwa-sahrul-main/index.html`
+                window.location.href = `/pwa-absensi/index.html`
             }
         })
     </script>
@@ -197,7 +198,7 @@
 
                 if (arr[0] == nameOfDay) {
                     $.ajax({
-                        url: `https://192.168.5.102/Admin_absensi/api/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_pulang`,
+                        url: `${baseUrl}/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_pulang`,
                         data: {
                             expired_barcode: arr[1]
                         },

@@ -19,6 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
     <title>Home Page</title>
+    <script src="./config.js"></script>
 </head>
 
 <body style="background-color: 	#F2F4FF">
@@ -102,7 +103,7 @@
 
                 // CEK BISA ABSEN MASUKK APA NGGAK?
                 $.ajax({
-                    url: `https://192.168.5.102/Admin_absensi/api/absensi/checkAllowAbsenFromMobile/jam_masuk?email=${email}`,
+                    url: `${baseUrl}/absensi/checkAllowAbsenFromMobile/jam_masuk?email=${email}`,
                     type: "GET",
                     dataType: "json",
                     success: function (response) {
@@ -125,7 +126,7 @@
                 })
 
                 $.ajax({
-                    url: `https://192.168.5.102/Admin_absensi/api/absensi/checkAllowAbsenFromMobile/jam_pulang?email=${email}`,
+                    url: `${baseUrl}/absensi/checkAllowAbsenFromMobile/jam_pulang?email=${email}`,
                     type: "GET",
                     dataType: "json",
                     success: function (response) {
@@ -163,11 +164,11 @@
 
                     if (logout) {
                         $.ajax({
-                            url: `https://192.168.5.102/Admin_absensi/api/auth/logout`,
+                            url: `${baseUrl}/auth/logout`,
                             type: "GET",
                             dataType: "json",
                             success: function (response) {
-                                window.location.href = `/pwa-sahrul-main/index.html`
+                                window.location.href = `/pwa-absensi/index.html`
 
                                 localStorage.removeItem("name")
                                 localStorage.removeItem("email")
@@ -184,7 +185,7 @@
 
                 })
             } else {
-                window.location.href = `/pwa-sahrul-main/index.html`
+                window.location.href = `/pwa-absensi/index.html`
             }
 
 
