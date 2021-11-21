@@ -85,12 +85,9 @@
     </script>
     <script>
         $(document).ready(function () {
-
-
-
             $('#btn-login').on('click', function () {
                 $.ajax({
-                    url: `https://192.168.5.102/Admin_absensi/api/auth/login`,
+                    url: `http://192.168.5.102/Admin_absensi/api/auth/login`,
                     data: {
                         email: $('#input-email').val(),
                         password: $('#input-password').val(),
