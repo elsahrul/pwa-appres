@@ -103,7 +103,7 @@
                     type: "POST",
                     dataType: "json",
                     success: function (response) {
-                        window.location.href = "/pwa-absensi/home.html"
+                        window.location.href = `${locationHref}`
 
                         localStorage.setItem("name", response.data.name)
                         localStorage.setItem("email", response.data.email)

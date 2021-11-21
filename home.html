@@ -168,7 +168,7 @@
                             type: "GET",
                             dataType: "json",
                             success: function (response) {
-                                window.location.href = `/pwa-absensi/index.html`
+                                window.location.href = `${locationHref}`
 
                                 localStorage.removeItem("name")
                                 localStorage.removeItem("email")
@@ -185,7 +185,7 @@
 
                 })
             } else {
-                window.location.href = `/pwa-absensi/index.html`
+                window.location.href = `${locationHref}`
             }
 
 
