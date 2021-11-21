@@ -86,7 +86,7 @@
     <script src="./ping.js"></script>
     <script>
 
-        ping('https://google.com/').then(function (delta) {
+        ping('http://192.168.5.102/').then(function (delta) {
             alert('Ping time was ' + String(delta) + ' ms');
         }).catch(function (err) {
             alert('Could not ping remote URL', err);
