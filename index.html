@@ -83,7 +83,15 @@
             }
         }
     </script>
+    <script src="./ping.js"></script>
     <script>
+
+        ping('https://google.com/').then(function (delta) {
+            alert('Ping time was ' + String(delta) + ' ms');
+        }).catch(function (err) {
+            alert('Could not ping remote URL', err);
+        });
+
         $(document).ready(function () {
             $('#btn-login').on('click', function () {
                 $.ajax({
