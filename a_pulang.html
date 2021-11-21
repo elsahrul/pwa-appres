@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Responsive -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>WEB SAHRUL</title>
+
+    <!-- Meta Tags required for Progressive Web App -->
+    <meta name="apple-mobile-web-app-status-bar" content="#aa7700">
+    <meta name="theme-color" content="black">
+
+    <!-- Manifest File link -->
+    <link rel="manifest" href="manifest.json">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/sb-admin-2.min.css">
+    <link rel="stylesheet" href="css/mycss.css">
+    <title>Absen Masuk</title>
+</head>
+
+<!-- <body>
+    <br>
+    <br>
+    <div class="container">
+        <h1>Ini PWA SAHRUL</h1>
+        <h5 id="result"></h5>
+        <br>
+        <br>
+        <div id="scanner-container"></div>
+    </div> -->
+
+<body style="background-color: 	#F2F4FF">
+    <!-- Just an image -->
+    <nav class="navbar navbar-light" style="background-color: #ffffff;">
+        <a class="navbar-brand mx-auto" href="#">
+            <img src="img/logo1.png" width="40" height="40" alt="">
+        </a>
+    </nav>
+
+    <div class="jumbotron-fluid">
+        <img src="img/jumbotron.png" style="width: 100%;">
+    </div>
+
+    <div class="container">
+        <div class="card text-center mt-5" style="width: 100%; margin-left:1%; height: 570px;">
+            <div class="card-header" style="border-top-right-radius: 5px; border-top-left-radius: 5px;">
+                <strong> Scan Absen Pulang </strong>
+            </div>
+            <div class="card-body">
+                <div id="scanner-container"></div>
+            </div>
+        </div>
+
+        <br>
+        <div class="card text-center" style="width: 100%; margin-left:1%;">
+            <div class="card-header" style="border-top-right-radius: 5px; border-top-left-radius: 5px;">
+                <strong> Keterangan</strong>
+            </div>
+            <div class="card-body">
+                <h5 id="result"></h5>
+            </div>
+        </div>
+
+        <br>
+        <a href="home.html" class="btn btn-primary btn-sm active" role="button" aria-pressed="true"
+            style="margin-left: 1%;"><i class="fas fa-arrow-left fa-sm text-white-50 mr-2"></i>&nbsp;Kembali</a>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            registerSW();
+        });
+
+        // Register the Service Worker
+        async function registerSW() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    await navigator
+                        .serviceWorker
+                        .register('serviceworker.js');
+                }
+                catch (e) {
+                    console.log('SW registration failed');
+                }
+            }
+        }
+    </script>
+    <script src="//unpkg.com/javascript-barcode-reader"></script>
+
+    <script src="https://cdn.rawgit.com/serratus/quaggaJS/0420d5e0/dist/quagga.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            let email = localStorage.getItem("email")
+
+            if (email) {
+                $('#name-user').html(localStorage.getItem("name"))
+                $('#no-induk-user').html(`${localStorage.getItem("status_no_induk")} ${localStorage.getItem("no_induk")}`)
+            } else {
+                window.location.href = `/pwa-sahrul-main/index.html`
+            }
+        })
+    </script>
+
+    <script>
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+        var _scannerIsRunning = false;
+        var res = document.getElementById("result")
+
+        let date = new Date();
+        let weekdays = new Array(7);
+        weekdays[0] = "Sun";
+        weekdays[1] = "Mon";
+        weekdays[2] = "Tue";
+        weekdays[3] = "Wed";
+        weekdays[4] = "Thu";
+        weekdays[5] = "Fri";
+        weekdays[6] = "Sat";
+        let nameOfDay = weekdays[date.getDay()];
+
+        function startScanner() {
+            Quagga.init({
+                inputStream: {
+                    name: "Live",
+                    type: "LiveStream",
+                    target: document.querySelector('#scanner-container'),
+                    constraints: {
+                        width: 480,
+                        height: 320,
+                        facingMode: "environment"
+                    },
+                },
+                decoder: {
+                    readers: [
+                        "code_128_reader",
+                        "ean_reader",
+                        "ean_8_reader",
+                        "code_39_reader",
+                        "code_39_vin_reader",
+                        "codabar_reader",
+                        "upc_reader",
+                        "upc_e_reader",
+                        "i2of5_reader"
+                    ],
+                    debug: {
+                        showCanvas: true,
+                        showPatches: true,
+                        showFoundPatches: true,
+                        showSkeleton: true,
+                        showLabels: true,
+                        showPatchLabels: true,
+                        showRemainingPatchLabels: true,
+                        boxFromPatches: {
+                            showTransformed: true,
+                            showTransformedBox: true,
+                            showBB: true
+                        }
+                    }
+                },
+
+            }, function (err) {
+                if (err) {
+                    console.log(err);
+                    return
+                }
+
+                console.log("Initialization finished. Ready to start");
+                Quagga.start();
+
+                // Set flag to is running
+                _scannerIsRunning = true;
+            });
+
+
+            Quagga.onDetected(function (result) {
+                console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
+                res.innerText = result.codeResult.code
+
+
+                let getDayOnScan = result.codeResult.code;
+                let arr = getDayOnScan.split(".")
+
+                if (arr[0] == nameOfDay) {
+                    $.ajax({
+                        url: `https://192.168.5.102/Admin_absensi/api/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_pulang`,
+                        data: {
+                            expired_barcode: arr[1]
+                        },
+                        type: "POST",
+                        dataType: "json",
+                        success: function (response) {
+                            alert(JSON.stringify(response))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(JSON.stringify(XMLHttpRequest));
+                        }
+                    })
+                }
+            });
+        }
+
+        startScanner();
+    </script>
+    <!-- <script src="./qr-scanner.umd.min.js"></script> -->
+    <!-- <script>
+            QrScanner.WORKER_PATH = './qr-scanner-worker.min.js';
+            const video = document.getElementById('tes');
+            var res = document.getElementById("result")
+            const qrScanner = new QrScanner(video, result => {
+                res.innerText = result
+            });
+            qrScanner.start();
+        </script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+    <script src="js/sb-admin-2.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Fontawesome JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+</body>
+
+</html>

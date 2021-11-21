@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+    <link rel="stylesheet" href="css/sb-admin-2.min.css">
+    <link rel="stylesheet" href="css/mycss.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <title>Home Page</title>
+</head>
+
+<body style="background-color: 	#F2F4FF">
+    <!-- Just an image -->
+    <nav class="navbar navbar-light" style="background-color: #ffffff;">
+        <a class="navbar-brand mx-auto" href="#">
+            <img src="img/logo1.png" width="40" height="40" alt="">
+        </a>
+    </nav>
+    <!-- <div class="jumbotron" style="background-color: #0073DE;">
+        <h1 class="display-6" style="color: white; font-size: larger;">Selamat Datang !</h1>
+        <img src="img/shaarawy.jpg" id="foto-user" style="width: 25%; border-radius: 50%;">
+        <p class="lead" style="color: white; margin-left: 25%; margin-top: -20%; font-size: 100%;"><span
+                id="name-user"></span><br><span id="no-induk-user"></span>
+        </p>
+    </div> -->
+    <div class="jumbotron-fluid">
+        <img src="img/jumbotron5.png" alt="" style="width: 100%;">
+    </div>
+
+    <div class="container">
+        <img src="img/shaarawy.jpg" id="foto-user"
+            style="width: 15%; border-radius: 50%; margin-top: -55%; margin-left: -15px; border: 2px solid #555;">
+        <h6 class="display-4"
+            style="font-size: 80%;; margin-top: -21%; margin-left: -15px; color: #F2F4FF; font-family: 'Roboto Condensed', sans-serif;">
+            <span id="name-user"></span><br><span id="no-induk-user"></span>
+        </h6>
+    </div>
+
+
+
+    <div class="container">
+        <div class="card mt-4">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <h6 class="pil_menu">Pilih Menu</h6>
+                </div>
+                <div class="row">
+                    <div class="card" style="width: 40%; margin-left: 5%;">
+                        <div class="card-body">
+                            <a href="a_masuk.html" id="btn-absen-masuk"><img src="img/masuk.png" id="img-absen-masuk"
+                                    alt="" style="width: 100%;"></a>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 40%; margin-left: 55%; margin-top: -33%;">
+                        <div class=" card-body">
+                            <a href="a_pulang.html" id="btn-absen-pulang"><img src="img/pulang.png"
+                                    id="img-absen-pulang" alt="" style="width: 100%;"></a>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="card" style="width: 40%;  margin-left: 5%;">
+                        <div class=" card-body">
+                            <a href="profil.html"><img src="img/profil1.png" alt="" style="width: 100%;"></a>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 40%; margin-left: 55%; margin-top: -33%;">
+                        <div class=" card-body">
+                            <a href="javascript:;" id="btn-logout"><img src="img/keluar.png" alt=""
+                                    style="width: 100%;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            let email = localStorage.getItem("email")
+            localStorage.setItem('isSudahAbsenMasuk', 'belum');
+
+            if (email) {
+                $('#name-user').html(localStorage.getItem("name"))
+                $('#no-induk-user').html(`${localStorage.getItem("status_no_induk")}. ${localStorage.getItem("no_induk")}`)
+                $('#foto-user').attr('src', localStorage.getItem('foto_profil'))
+
+                // CEK BISA ABSEN MASUKK APA NGGAK?
+                $.ajax({
+                    url: `https://192.168.5.102/Admin_absensi/api/absensi/checkAllowAbsenFromMobile/jam_masuk?email=${email}`,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.data.isActive !== true) {
+
+                            localStorage.setItem('isSudahAbsenMasuk', 'sudah');
+
+                            $('#btn-absen-masuk').click(function (e) {
+                                e.preventDefault();
+
+                                alert("Anda sudah absen masuk tadi")
+                            })
+                            $('#img-absen-masuk').css("filter", "grayscale(100%)");
+                        }
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(JSON.stringify(textStatus));
+                    }
+                })
+
+                $.ajax({
+                    url: `https://192.168.5.102/Admin_absensi/api/absensi/checkAllowAbsenFromMobile/jam_pulang?email=${email}`,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (response) {
+                        var isSudahAbsenMasuk = localStorage.getItem('isSudahAbsenMasuk');
+                        if (response.data.isActive !== true && isSudahAbsenMasuk === 'belum') {
+                            $('#btn-absen-pulang').click(function (e) {
+                                e.preventDefault();
+
+                                alert("Silahkan absen masuk terlebih dahulu");
+
+                            })
+                            $('#img-absen-pulang').css("filter", "grayscale(100%)");
+                        }
+
+                        var isSudahAbsenMasuk = localStorage.getItem('isSudahAbsenMasuk');
+                        if (isSudahAbsenMasuk === 'sudah' && response.data.isActive === false) {
+                            $('#btn-absen-pulang').click(function (e) {
+                                e.preventDefault();
+
+                                alert("Anda sudah absen pulang tadi");
+
+                            })
+                            $('#img-absen-pulang').css("filter", "grayscale(100%)");
+                        }
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(JSON.stringify(textStatus));
+                    }
+                })
+
+                $('#btn-logout').on('click', function () {
+
+                    let logout = confirm("Ingin keluar?")
+
+                    if (logout) {
+                        $.ajax({
+                            url: `https://192.168.5.102/Admin_absensi/api/auth/logout`,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (response) {
+                                window.location.href = `/pwa-sahrul-main/index.html`
+
+                                localStorage.removeItem("name")
+                                localStorage.removeItem("email")
+                                localStorage.removeItem("status_no_induk")
+                                localStorage.removeItem("no_induk")
+                                localStorage.removeItem("foto_profil")
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                alert(JSON.stringify(textStatus));
+                            }
+                        })
+                    }
+
+
+                })
+            } else {
+                window.location.href = `/pwa-sahrul-main/index.html`
+            }
+
+
+        })
+    </script>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="js/sb-admin-2.min.js"></script>
+    <script src="js/myjs.js"></script>
+
+    <!-- Fontawesome JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+
+</body>
+
+</html>

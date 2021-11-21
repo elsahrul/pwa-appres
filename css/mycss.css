@@ -1,0 +1,213 @@
+/* 
+.gambar1 {
+    width: 170px;
+    margin-left: 25%;
+}
+
+.gambar2 {
+    width: 450px;
+        position: absolute;
+        margin-left: 40%;
+        margin-top: 4%;
+        right: 60;
+        left: 40;
+        bottom: 50;
+        top: 0;
+}
+
+.ftprofil {
+    width: 150px;
+    border-radius: 50%;
+    position: absolute;
+    margin-left: 20%;
+}
+
+.masuk {
+    width: 150px;
+    margin-left: 10%;
+}
+.pulang {
+    width: 150px;
+    margin-left: 36%;
+}
+.profil{
+    width: 150px;
+    margin-left: 11%;
+    margin-top:6%;
+}
+
+.keluar{
+    width: 150px;
+    margin-left: 35%;
+    margin-top:5%;
+}
+
+.text-masuk{
+    margin-left: 9%;
+}
+
+.text-pulang{
+    margin-left: 65%;
+    margin-top: -46px;
+}
+
+.text-profil{
+    margin-left: 16%;
+}
+.text-logout{
+    margin-left: 72%;
+margin-top: -52px;
+margin-bottom: 30px;
+}
+.card{
+    width: 70%;
+    margin-left: 15%;
+    margin-bottom: 9%;
+    margin-top: -4%;
+    border-radius: 15px;
+    
+}
+
+.nip{
+    margin-left: -12%;
+}
+
+.jbt{
+    position: absolute;
+    margin-left:-11%;
+}
+
+.cap{
+    position: absolute;
+    margin-top: -25px;
+    margin-left: 33%;
+}
+
+.pil_menu{
+    font-size: 40px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+} */
+
+/* .bgrounded{
+    width: 150%;
+} */
+
+
+@media (max-width: 575.98px) { 
+
+    /* .gambar1{
+        width: 100px;
+        margin-left: 30px;
+        margin-bottom: 60px;
+    }
+
+    .gambar2 {
+        position: absolute;
+        right: 0;
+        left: 20;
+        bottom: 40;
+        top: 0;
+        width: 230px;
+        margin-left: 30px;
+        margin-top: 70px;
+    }
+
+    .ftprofil {
+        width: 100px;
+        border-radius: 50%;
+        position: absolute;
+        margin-left: 10%;
+        margin-top: 5%;
+    }
+    .nama{
+    font-size: 15px;
+    margin-left: 28%;
+    }
+    .nip{
+        font-size: 15px;
+        margin-left:19%;
+        margin-right:11%;
+    }
+
+    .jbt{
+        font-size: 15px;
+        margin-left:-8%;
+
+    }
+
+    .masuk {
+        width: 60px;
+        margin-left: 5%;
+        margin-top: 13%;
+    }
+    .pulang {
+        width: 60px;
+        margin-left: 30%;
+        margin-top: 13%;
+    }
+    .profil {
+        margin-top: 20%;
+        width: 60px;
+        margin-left: 8%;
+    }
+    .keluar {
+        margin-top: 20%;
+        width: 60px;
+        margin-left: 30%;
+    }
+
+    .card{
+    width: 80%; 
+    margin-left: 10%;
+    }
+    
+    .text-masuk{
+    font-size: 15px;
+    margin-left: 2px;
+    }
+    .text-pulang{
+    font-size: 15px;
+    margin-left: 56%;
+    margin-top: -11%;
+    }
+    .text-profil{
+    font-size: 15px;
+    margin-left: 32px;
+    }
+    .text-logout{
+    font-size: 15px;
+    margin-left: 70%;
+    margin-top: -11%;
+    }
+    .card{
+    border-radius: 20px;
+    margin-top: 5%;
+    }
+    .cap{
+    margin-left: 12%;
+    }
+
+    .pil_menu{
+    font-size: 20px;
+    font-family:'Times New Roman', Times, serif
+    } */
+
+} 
+
+ /* @media (min-width: 992px) and (max-width: 1199.98px) { 
+    .gambar1 {
+        width: 200px;
+        margin-left: 150px;
+    }
+     
+      .gambar2{
+        width: 400px;
+        position: absolute;
+        margin-left: 50%;
+        margin-top: 0;
+        right: 60;
+        left: 40;
+        bottom: 50;
+        top: 0;
+        }   
+  }  */
