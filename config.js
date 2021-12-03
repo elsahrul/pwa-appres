@@ -1,3 +1,3 @@
-var baseUrl = "http://192.168.5.102/admin-absensi/api";
-var locationHref = "/home.html";
-var indexHref = "/index.html"
+var baseUrl = "https://localhost/admin-absensi/api";
+var locationHref = "/pwa-absensi/home.html";
+var indexHref = "/pwa-absensi/index.html"

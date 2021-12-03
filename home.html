@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 
     <link rel="stylesheet" href="css/sb-admin-2.min.css">
-    <link rel="stylesheet" href="css/mycss.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -19,8 +18,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+
     <title>Home Page</title>
+    <link href="img/favicon.ico" rel="icon">
+
     <script src="./config.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body style="background-color: 	#F2F4FF">
@@ -99,8 +102,30 @@
 
             if (email) {
                 $('#name-user').html(localStorage.getItem("name"))
-                $('#no-induk-user').html(`${localStorage.getItem("status_no_induk")}. ${localStorage.getItem("no_induk")}`)
+                $('#no-induk-user').html(
+                    `${localStorage.getItem("status_no_induk")}. ${localStorage.getItem("no_induk")}`)
                 $('#foto-user').attr('src', localStorage.getItem('foto_profil'))
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const myParam = urlParams.get('status');
+
+                if (myParam == "absen_masuk_success") {
+                    Swal.fire({
+                        title: "Berhasil",
+                        text: "Berhasil absen masuk",
+                        icon: "success"
+                    }).then(function () {
+                        window.history.pushState({}, document.title, `${locationHref}`);
+                    });
+                } else if (myParam == "absen_pulang_success") {
+                    Swal.fire({
+                        title: "Berhasil",
+                        text: "Berhasil absen pulang",
+                        icon: "success"
+                    }).then(function () {
+                        window.history.pushState({}, document.title, `${locationHref}`);
+                    });
+                }
 
                 // CEK BISA ABSEN MASUKK APA NGGAK?
                 $.ajax({
@@ -115,7 +140,11 @@
                             $('#btn-absen-masuk').click(function (e) {
                                 e.preventDefault();
 
-                                alert("Anda sudah absen masuk tadi")
+                                Swal.fire({
+                                    title: 'Gagal',
+                                    text: 'Anda sudah absen masuk',
+                                    icon: 'warning'
+                                });
                             })
                             $('#img-absen-masuk').css("filter", "grayscale(100%)");
                         }
@@ -135,9 +164,11 @@
                         if (response.data.isActive !== true && isSudahAbsenMasuk === 'belum') {
                             $('#btn-absen-pulang').click(function (e) {
                                 e.preventDefault();
-
-                                alert("Silahkan absen masuk terlebih dahulu");
-
+                                Swal.fire({
+                                    title: 'Gagal',
+                                    text: 'Silahkan absen masuk terlebih dahulu',
+                                    icon: 'warning'
+                                });
                             })
                             $('#img-absen-pulang').css("filter", "grayscale(100%)");
                         }
@@ -146,9 +177,11 @@
                         if (isSudahAbsenMasuk === 'sudah' && response.data.isActive === false) {
                             $('#btn-absen-pulang').click(function (e) {
                                 e.preventDefault();
-
-                                alert("Anda sudah absen pulang tadi");
-
+                                Swal.fire({
+                                    title: 'Gagal',
+                                    text: 'Anda sudah absen pulang',
+                                    icon: 'warning'
+                                });
                             })
                             $('#img-absen-pulang').css("filter", "grayscale(100%)");
                         }
@@ -161,29 +194,36 @@
 
                 $('#btn-logout').on('click', function () {
 
-                    let logout = confirm("Ingin keluar?")
+                    Swal.fire({
+                        title: 'Ingin keluar?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, keluar',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: `${baseUrl}/auth/logout`,
+                                type: "GET",
+                                dataType: "json",
+                                success: function (response) {
+                                    window.location.href = `${indexHref}`
 
-                    if (logout) {
-                        $.ajax({
-                            url: `${baseUrl}/auth/logout`,
-                            type: "GET",
-                            dataType: "json",
-                            success: function (response) {
-                                window.location.href = `${indexHref}`
-
-                                localStorage.removeItem("name")
-                                localStorage.removeItem("email")
-                                localStorage.removeItem("status_no_induk")
-                                localStorage.removeItem("no_induk")
-                                localStorage.removeItem("foto_profil")
-                            },
-                            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                alert(JSON.stringify(textStatus));
-                            }
-                        })
-                    }
-
-
+                                    localStorage.removeItem("name")
+                                    localStorage.removeItem("email")
+                                    localStorage.removeItem("status_no_induk")
+                                    localStorage.removeItem("no_induk")
+                                    localStorage.removeItem("foto_profil")
+                                },
+                                error: function (XMLHttpRequest, textStatus,
+                                    errorThrown) {
+                                    alert(JSON.stringify(textStatus));
+                                }
+                            })
+                        }
+                    })
                 })
             } else {
                 window.location.href = `${indexHref}`

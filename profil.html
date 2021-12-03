@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="css/sb-admin-2.min.css">
-    <link rel="stylesheet" href="css/mycss.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -24,6 +23,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 
     <title>Profil Page</title>
+    <link href="img/favicon.ico" rel="icon">
     <script src="./config.js"></script>
 </head>
 
@@ -47,23 +47,49 @@
         </h6>
     </div>
 
-    <div class="container">
-        <div class="card text-center mt-5" style="width: 100%; margin-left:1%;">
-            <div class="card-header" style="border-top-right-radius: 5px; border-top-left-radius: 5px;">
-                <strong> Biodata Pegawai </strong>
-            </div>
-            <div class="card-body">
-                <table class="table-responsive" style="text-align: left;">
-                    <tbody style="font-size: 90%;" id="table-data">
 
-                    </tbody>
-                </table>
+    <div class="mt-2">
+        <ul class="nav nav-tabs justify-content-center" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" href="#profile" role="tab" data-toggle="tab"><i
+                        class="fas fa-id-card fa-2x"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#kepegawaian" role="tab" data-toggle="tab"><i
+                        class="fas fa-briefcase fa-2x"></i></a>
+            </li>
+        </ul>
+
+        <div class="container">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active show" id="profile">
+                    <div class="card mt-2">
+                        <div class="card-header text-center">
+                            BIODATA DIRI
+                        </div>
+                        <div class="card-body" id="data-profile">
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="kepegawaian">
+                    <div class="card mt-2">
+                        <div class="card-header text-center">
+                            BIODATA KEPEGAWAIAN
+                        </div>
+                        <div class="card-body" id="data-kepegawaian">
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <a href="home.html" class="btn btn-primary btn-sm active" role="button" aria-pressed="true"
+                style="margin-left: 1%; margin-top: 5%;"><i
+                    class="fas fa-arrow-left fa-sm text-white-50 mr-2"></i>Kembali</a>
         </div>
-        <br>
-        <a href="home.html" class="btn btn-primary btn-sm active" role="button" aria-pressed="true"
-            style="margin-left: 1%;"><i class="fas fa-arrow-left fa-sm text-white-50 mr-2"></i>&nbsp;Kembali</a>
     </div>
+
+
 
     <script>
         $(document).ready(function () {
@@ -72,7 +98,8 @@
 
             if (email) {
                 $('#name-user').html(localStorage.getItem("name"))
-                $('#no-induk-user').html(`${localStorage.getItem("status_no_induk")} ${localStorage.getItem("no_induk")}`)
+                $('#no-induk-user').html(
+                    `${localStorage.getItem("status_no_induk")} ${localStorage.getItem("no_induk")}`)
                 $('#foto-user').attr('src', localStorage.getItem('foto_profil'))
 
                 $.ajax({
@@ -80,66 +107,51 @@
                     type: "GET",
                     dataType: "json",
                     success: function (response) {
-                        $('#table-data').html(`
-                        <tr>
-                            <td>Email APPRES</td>
-                            <td> : </td>
-                            <td>${response.data.email}</td>
-                        </tr>
+                        $('#data-profile').html(`
+                        <div class="row">
+                            <div class="col-md-12"><label class="labels">Email APPRES</label><input type="text"
+                                    class="form-control"
+                                    value="${response.data.email}" disabled></div>
 
-                        <tr>
-                            <td>Tempat Tanggal Lahir</td>
-                            <td> : </td>
-                            <td>${response.data.ttl}</td>
-                        </tr>
+                            <div class="col-md-12 mt-2"><label class="labels">Tempat Tanggal Lahir</label><input
+                                    type="text"
+                                    class="form-control" value="${response.data.ttl}"
+                                    disabled></div>
 
-                        <tr>
-                            <td>Jenis Kelamin</td>
-                            <td> : </td>
-                            <td>${response.data.jenis_kelamin}</td>
-                        </tr>
+                            <div class="col-md-12 mt-2"><label class="labels">Jenis Kelamin</label><input type="text"
+                                    class="form-control" 
+                                    value="${response.data.jenis_kelamin}" disabled></div>
 
-                        <tr>
-                            <td>Pendidikan Jurusan</td>
-                            <td> : </td>
-                            <td>${response.data.pendidikan_jurusan}</td>
-                        </tr>
+                            <div class="col-md-12 mt-2"><label class="labels">Pendidikan Jurusan</label><input
+                                    type="text"
+                                    class="form-control" value="${response.data.pendidikan_jurusan}" disabled></div>
+                        </div>
+                        `)
 
-                        <tr>
-                            <td>Jabatan</td>
-                            <td> : </td>
-                            <td>${response.data.jabatan}</td>
-                        </tr>
 
-                        <tr>
-                            <td>Pangkat - Gol.Ruang</td>
-                            <td> : </td>
-                            <td>${response.data.pangkat_gol}</td>
-                        </tr>
+                        $('#data-kepegawaian').html(`
+                        <div class="row">
+                            <div class="col-md-12"><label class="labels">Jabatan</label><input type="text"
+                                    class="form-control" value="${response.data.jabatan}" disabled></div>
 
-                        <tr>
-                            <td>Nomor Tanggal SK</td>
-                            <td> : </td>
-                            <td>${response.data.nomor_tgl_sk}</td>
-                        </tr>
+                            <div class="col-md-12 mt-2"><label class="labels">Pangkat - Gol.Ruang</label><input type="text"
+                                    class="form-control" value="${response.data.pangkat_gol}" disabled></div>
 
-                        <tr>
-                            <td>Pangkat Terakhir</td>
-                            <td> : </td>
-                            <td>${response.data.pangkat_terakhir}</td>
-                        </tr>
+                            <div class="col-md-12 mt-2"><label class="labels">Nomor Tanggal SK</label><input type="text"
+                                    class="form-control" value="${response.data.nomor_tgl_sk}" disabled></div>
 
-                        <tr>
-                            <td>Tugas Di Sekolah Ini</td>
-                            <td> : </td>
-                            <td>${response.data.tugas_disekolah}</td>
-                        </tr>
+                            <div class="col-md-12 mt-2"><label class="labels">Pangkat Terakhir</label><input type="text"
+                                    class="form-control" value="${response.data.pangkat_terakhir}" disabled></div>
 
-                        <tr>
-                            <td>Mengajar Mata Pelajaran</td>
-                            <td> : </td>
-                            <td>${response.data.mengajar_mp}</td>
-                        </tr>
+                            <div class="col-md-12 mt-2"><label class="labels">Tugas Di Sekolah Ini</label><input
+                                    type="text"
+                                    class="form-control" value="${response.data.tugas_disekolah}" disabled></div>
+
+                            <div class="col-md-12 mt-2"><label class="labels">Mengajar Mata Pelajaran</label><input
+                                    type="text"
+                                    class="form-control" value="${response.data.mengajar_mp}" disabled></div>
+
+                        </div>
                         `)
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -154,10 +166,10 @@
 
     <!-- Optional JavaScript; choose one of the two! -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-        crossorigin="anonymous"></script>
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
+    </script>
     <script src="js/sb-admin-2.min.js"></script>
-    <script src="js/myjs.js"></script>
+
 
     <!-- Fontawesome JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
