@@ -31,7 +31,7 @@
     <title>Absen Pulang</title>
     <link href="img/favicon.ico" rel="icon">
 
-    <script src="./config.js"></script>
+    <script type="text/javascript" src="./config.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
@@ -75,19 +75,23 @@
     </div>
 
     <script>
-        window.addEventListener('load', () => {
-            registerSW();
-        });
+        verifikasi_token();
+        var status_token = localStorage.getItem('status_token');
+        if (status_token === "success") {
+            window.addEventListener('load', () => {
+                registerSW();
+            });
 
-        // Register the Service Worker
-        async function registerSW() {
-            if ('serviceWorker' in navigator) {
-                try {
-                    await navigator
-                        .serviceWorker
-                        .register('serviceworker.js');
-                } catch (e) {
-                    console.log('SW registration failed');
+            // Register the Service Worker
+            async function registerSW() {
+                if ('serviceWorker' in navigator) {
+                    try {
+                        await navigator
+                            .serviceWorker
+                            .register('serviceworker.js');
+                    } catch (e) {
+                        console.log('SW registration failed');
+                    }
                 }
             }
         }
@@ -96,130 +100,140 @@
 
     <script src="https://cdn.rawgit.com/serratus/quaggaJS/0420d5e0/dist/quagga.min.js"></script>
     <script>
-        $(document).ready(function () {
+        verifikasi_token();
+        var status_token = localStorage.getItem('status_token');
+        if (status_token === "success") {
+            $(document).ready(function () {
 
-            let email = localStorage.getItem("email")
+                let email = localStorage.getItem("email")
 
-            if (email) {
-                $('#name-user').html(localStorage.getItem("name"))
-                $('#no-induk-user').html(
-                    `${localStorage.getItem("status_no_induk")} ${localStorage.getItem("no_induk")}`)
-            } else {
-                window.location.href = `${indexHref}`
-            }
-        })
+                if (email) {
+                    $('#name-user').html(localStorage.getItem("name"))
+                    $('#no-induk-user').html(
+                        `${localStorage.getItem("status_no_induk")} ${localStorage.getItem("no_induk")}`)
+                } else {
+                    window.location.href = `${indexHref}`
+                }
+            })
+        }
     </script>
 
     <script>
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia ||
-            navigator.msGetUserMedia || navigator.oGetUserMedia;
-        var _scannerIsRunning = false;
-        var res = document.getElementById("result")
+        verifikasi_token();
+        var status_token = localStorage.getItem('status_token');
+        if (status_token === "success") {
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator
+                .mozGetUserMedia ||
+                navigator.msGetUserMedia || navigator.oGetUserMedia;
+            var _scannerIsRunning = false;
+            var res = document.getElementById("result")
 
-        let date = new Date();
-        let weekdays = new Array(7);
-        weekdays[0] = "Sun";
-        weekdays[1] = "Mon";
-        weekdays[2] = "Tue";
-        weekdays[3] = "Wed";
-        weekdays[4] = "Thu";
-        weekdays[5] = "Fri";
-        weekdays[6] = "Sat";
-        let nameOfDay = weekdays[date.getDay()];
+            let date = new Date();
+            let weekdays = new Array(7);
+            weekdays[0] = "Sun";
+            weekdays[1] = "Mon";
+            weekdays[2] = "Tue";
+            weekdays[3] = "Wed";
+            weekdays[4] = "Thu";
+            weekdays[5] = "Fri";
+            weekdays[6] = "Sat";
+            let nameOfDay = weekdays[date.getDay()];
 
-        function startScanner() {
-            Quagga.init({
-                inputStream: {
-                    name: "Live",
-                    type: "LiveStream",
-                    target: document.querySelector('#scanner-container'),
-                    constraints: {
-                        width: 480,
-                        height: 320,
-                        facingMode: "environment"
+            function startScanner() {
+                Quagga.init({
+                    inputStream: {
+                        name: "Live",
+                        type: "LiveStream",
+                        target: document.querySelector('#scanner-container'),
+                        constraints: {
+                            width: 480,
+                            height: 320,
+                            facingMode: "environment"
+                        },
                     },
-                },
-                decoder: {
-                    readers: [
-                        "code_128_reader",
-                        "ean_reader",
-                        "ean_8_reader",
-                        "code_39_reader",
-                        "code_39_vin_reader",
-                        "codabar_reader",
-                        "upc_reader",
-                        "upc_e_reader",
-                        "i2of5_reader"
-                    ],
-                    debug: {
-                        showCanvas: true,
-                        showPatches: true,
-                        showFoundPatches: true,
-                        showSkeleton: true,
-                        showLabels: true,
-                        showPatchLabels: true,
-                        showRemainingPatchLabels: true,
-                        boxFromPatches: {
-                            showTransformed: true,
-                            showTransformedBox: true,
-                            showBB: true
-                        }
-                    }
-                },
-
-            }, function (err) {
-                if (err) {
-                    console.log(err);
-                    return
-                }
-
-                console.log("Initialization finished. Ready to start");
-                Quagga.start();
-
-                // Set flag to is running
-                _scannerIsRunning = true;
-            });
-
-
-            Quagga.onDetected(function (result) {
-                console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
-                res.innerText = result.codeResult.code
-
-
-                let getDayOnScan = result.codeResult.code;
-                let arr = getDayOnScan.split(".")
-
-                if (arr[0] == nameOfDay) {
-                    $.ajax({
-                        url: `${baseUrl}/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_pulang`,
-                        data: {
-                            expired_barcode: arr[1]
-                        },
-                        type: "POST",
-                        dataType: "json",
-                        success: function (response) {
-                            console.log(response)
-                            if (response.status == "success") {
-                                console.warn("success absen")
-
-                                window.location.href = `${locationHref}?status=absen_pulang_success`
-                            } else {
-                                console.warn("failed absen")
-
-                                $('#absen-message').html(
-                                    `<div class="alert alert-danger" role="alert">${response.message}</div>`
-                                )
+                    decoder: {
+                        readers: [
+                            "code_128_reader",
+                            "ean_reader",
+                            "ean_8_reader",
+                            "code_39_reader",
+                            "code_39_vin_reader",
+                            "codabar_reader",
+                            "upc_reader",
+                            "upc_e_reader",
+                            "i2of5_reader"
+                        ],
+                        debug: {
+                            showCanvas: true,
+                            showPatches: true,
+                            showFoundPatches: true,
+                            showSkeleton: true,
+                            showLabels: true,
+                            showPatchLabels: true,
+                            showRemainingPatchLabels: true,
+                            boxFromPatches: {
+                                showTransformed: true,
+                                showTransformedBox: true,
+                                showBB: true
                             }
-                        },
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            alert(JSON.stringify(XMLHttpRequest));
                         }
-                    })
-                }
-            });
-        }
+                    },
 
-        startScanner();
+                }, function (err) {
+                    if (err) {
+                        console.log(err);
+                        return
+                    }
+
+                    console.log("Initialization finished. Ready to start");
+                    Quagga.start();
+
+                    // Set flag to is running
+                    _scannerIsRunning = true;
+                });
+
+
+                Quagga.onDetected(function (result) {
+                    console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
+                    res.innerText = result.codeResult.code
+
+
+                    let getDayOnScan = result.codeResult.code;
+                    let arr = getDayOnScan.split(".")
+
+                    if (arr[0] == nameOfDay) {
+                        $.ajax({
+                            url: `${baseUrl}/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_pulang`,
+                            data: {
+                                expired_barcode: arr[1]
+                            },
+                            type: "POST",
+                            dataType: "json",
+                            success: function (response) {
+                                console.log(response)
+                                if (response.status == "success") {
+                                    console.warn("success absen")
+
+                                    window.location.href =
+                                        `${locationHref}?status=absen_pulang_success`
+                                } else {
+                                    console.warn("failed absen")
+
+                                    $('#absen-message').html(
+                                        `<div class="alert alert-danger" role="alert">${response.message}</div>`
+                                    )
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                alert(JSON.stringify(XMLHttpRequest));
+                            }
+                        })
+                    }
+                });
+            }
+
+            startScanner();
+        }
     </script>
     <!-- <script src="./qr-scanner.umd.min.js"></script> -->
     <!-- <script>
