@@ -1,3 +1,3 @@
-var baseUrl = "http://192.168.5.102/admin-absensi/api";
+var baseUrl = "https://admin-absensi.000webhostapp.com/API";
 var locationHref = "/home.html";
 var indexHref = "/index.html"
