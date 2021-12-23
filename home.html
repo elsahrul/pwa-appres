@@ -45,8 +45,8 @@
     </div>
 
     <div class="container">
-        <img src="img/shaarawy.jpg" id="foto-user"
-            style="width: 15%; border-radius: 50%; margin-top: -55%; margin-left: -15px; border: 2px solid #555;">
+        <img src="img/shaarawy.jpg" id="foto-user" class="rounded"
+            style="width: 12%; margin-top: -55%; margin-left: -15px; border: 1px solid #555;">
         <h6 class="display-4"
             style="font-size: 80%;; margin-top: -21%; margin-left: -15px; color: #F2F4FF; font-family: 'Roboto Condensed', sans-serif;">
             <span id="name-user"></span><br><span id="no-induk-user"></span>
@@ -55,7 +55,7 @@
 
 
 
-    <div class="container">
+    <div class="container" id="tokenValid">
         <div class="card mt-4">
             <div class="card-body">
                 <div class="row justify-content-center">
@@ -84,8 +84,47 @@
                     </div>
                     <div class="card" style="width: 40%; margin-left: 55%; margin-top: -33%;">
                         <div class=" card-body">
-                            <a href="javascript:;" id="btn-logout"><img src="img/keluar.png" alt=""
+                            <a href="javascript:;" id="btnLogout">
+                                <img src="img/keluar.png" alt="img" id="btnLogout2" style="width: 100%;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container" id="tokenInValid" style="display: none;">
+        <div class="card mt-4">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <h6 class="pil_menu">Pilih Menu</h6>
+                </div>
+                <div class="row">
+                    <div class="card" style="width: 40%; margin-left: 5%;">
+                        <div class="card-body">
+                            <a href="#" id="btn-absen-masuk"><img src="img/masuk.png" id="img-absen-masuk" alt=""
                                     style="width: 100%;"></a>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 40%; margin-left: 55%; margin-top: -33%;">
+                        <div class=" card-body">
+                            <a href="#l" id="btn-absen-pulang"><img src="img/pulang.png" id="#" alt=""
+                                    style="width: 100%;"></a>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="card" style="width: 40%;  margin-left: 5%;">
+                        <div class=" card-body">
+                            <a href="#"><img src="img/profil1.png" alt="" style="width: 100%;"></a>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 40%; margin-left: 55%; margin-top: -33%;">
+                        <div class=" card-body">
+                            <a href="javascript:;" id="btnLogout3">
+                                <img src="img/keluar.png" alt="img" id="btnLogout4" style="width: 100%;"></a>
                         </div>
                     </div>
                 </div>
@@ -95,36 +134,61 @@
     </div>
 
     <script>
-        let email = localStorage.getItem("email")
-        localStorage.setItem('isSudahAbsenMasuk', 'belum');
-        if (email) {
-            // token
-            var token = localStorage.getItem("token");
-            if (token === null) {
-                token = localStorage.setItem("token", Math.random().toString(36)
-                    .substr(2, 9));
-                token = localStorage.getItem("token");
-                $.ajax({
-                    url: `${baseUrl}/token/insert_token`,
-                    data: {
-                        token: token
-                    },
-                    type: "POST",
-                    dataType: "json",
-                    success: function (response) {
-                        //
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert(JSON.stringify(XMLHttpRequest));
-                    }
-                });
-            }
-        }
+        $(document).ready(function () {
 
-        verifikasi_token();
-        var status_token = localStorage.getItem('status_token');
-        if (status_token === "success") {
-            $(document).ready(function () {
+            let email = localStorage.getItem("email")
+            localStorage.setItem('isSudahAbsenMasuk', 'belum');
+            // alert(email);
+            if (email) {
+                // token
+                var token = localStorage.getItem("token");
+                if (token === null) {
+                    token = localStorage.setItem("token", Math.random().toString(36)
+                        .substr(2, 9));
+                    token = localStorage.getItem("token");
+                    $.ajax({
+                        url: `${baseUrl}/token/insert_token`,
+                        data: {
+                            token: token
+                        },
+                        type: "POST",
+                        dataType: "json",
+                        success: function (response) {
+                            //
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(JSON.stringify(XMLHttpRequest));
+                        }
+                    });
+                }
+            }
+
+            var token = localStorage.getItem('token');
+            $.ajax({
+                url: `${baseUrl}/token/verifikasi_token`,
+                data: {
+                    token: token
+                },
+                type: "POST",
+                dataType: "json",
+                success: function (response) {
+                    if (response.status === "failed") {
+                        localStorage.setItem('status_token', "failed");
+                        $('#tokenValid').hide();
+                        $('#tokenInValid').show();
+                    } else {
+                        localStorage.setItem('status_token', "success");
+                        $('#tokenInValid').hide();
+                        $('#tokenValid').show();
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(JSON.stringify(XMLHttpRequest));
+                }
+            });
+
+            var status_token = localStorage.getItem('status_token');
+            if (status_token === "success") {
 
                 if (email) {
                     $('#name-user').html(localStorage.getItem("name"))
@@ -221,44 +285,159 @@
                 } else {
                     window.location.href = `${indexHref}`
                 }
+            }
+
+
+
+            $('#btnLogout').on('click', function () {
+
+                Swal.fire({
+                    title: 'Ingin keluar?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, keluar',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `${baseUrl}/auth/logout`,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (response) {
+                                window.location.href = `${indexHref}`
+
+                                localStorage.removeItem("name")
+                                localStorage.removeItem("email")
+                                localStorage.removeItem("status_no_induk")
+                                localStorage.removeItem("no_induk")
+                                localStorage.removeItem("foto_profil")
+                                localStorage.removeItem("token")
+                                localStorage.removeItem("isSudahAbsenMasuk")
+                                localStorage.removeItem("status_token")
+                            },
+                            error: function (XMLHttpRequest, textStatus,
+                                errorThrown) {
+                                alert(JSON.stringify(textStatus));
+                            }
+                        })
+                    }
+                })
             });
-        }
 
-        $('#btn-logout').on('click', function () {
+            $('#btnLogout2').on('click', function () {
 
-            Swal.fire({
-                title: 'Ingin keluar?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, keluar',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: `${baseUrl}/auth/logout`,
-                        type: "GET",
-                        dataType: "json",
-                        success: function (response) {
-                            window.location.href = `${indexHref}`
+                Swal.fire({
+                    title: 'Ingin keluar?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, keluar',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `${baseUrl}/auth/logout`,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (response) {
+                                window.location.href = `${indexHref}`
 
-                            localStorage.removeItem("name")
-                            localStorage.removeItem("email")
-                            localStorage.removeItem("status_no_induk")
-                            localStorage.removeItem("no_induk")
-                            localStorage.removeItem("foto_profil")
-                            localStorage.removeItem("token")
-                            localStorage.removeItem("isSudahAbsenMasuk")
-                            localStorage.removeItem("status_token")
-                        },
-                        error: function (XMLHttpRequest, textStatus,
-                            errorThrown) {
-                            alert(JSON.stringify(textStatus));
-                        }
-                    })
-                }
-            })
+                                localStorage.removeItem("name")
+                                localStorage.removeItem("email")
+                                localStorage.removeItem("status_no_induk")
+                                localStorage.removeItem("no_induk")
+                                localStorage.removeItem("foto_profil")
+                                localStorage.removeItem("token")
+                                localStorage.removeItem("isSudahAbsenMasuk")
+                                localStorage.removeItem("status_token")
+                            },
+                            error: function (XMLHttpRequest, textStatus,
+                                errorThrown) {
+                                alert(JSON.stringify(textStatus));
+                            }
+                        })
+                    }
+                })
+            });
+
+            $('#btnLogout3').on('click', function () {
+
+                Swal.fire({
+                    title: 'Ingin keluar?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, keluar',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `${baseUrl}/auth/logout`,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (response) {
+                                window.location.href = `${indexHref}`
+
+                                localStorage.removeItem("name")
+                                localStorage.removeItem("email")
+                                localStorage.removeItem("status_no_induk")
+                                localStorage.removeItem("no_induk")
+                                localStorage.removeItem("foto_profil")
+                                localStorage.removeItem("token")
+                                localStorage.removeItem("isSudahAbsenMasuk")
+                                localStorage.removeItem("status_token")
+                            },
+                            error: function (XMLHttpRequest, textStatus,
+                                errorThrown) {
+                                alert(JSON.stringify(textStatus));
+                            }
+                        })
+                    }
+                })
+            });
+
+            $('#btnLogout4').on('click', function () {
+
+                Swal.fire({
+                    title: 'Ingin keluar?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, keluar',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `${baseUrl}/auth/logout`,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (response) {
+                                window.location.href = `${indexHref}`
+
+                                localStorage.removeItem("name")
+                                localStorage.removeItem("email")
+                                localStorage.removeItem("status_no_induk")
+                                localStorage.removeItem("no_induk")
+                                localStorage.removeItem("foto_profil")
+                                localStorage.removeItem("token")
+                                localStorage.removeItem("isSudahAbsenMasuk")
+                                localStorage.removeItem("status_token")
+                            },
+                            error: function (XMLHttpRequest, textStatus,
+                                errorThrown) {
+                                alert(JSON.stringify(textStatus));
+                            }
+                        })
+                    }
+                })
+            });
+
+
         });
     </script>
 

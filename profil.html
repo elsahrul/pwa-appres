@@ -28,19 +28,24 @@
 </head>
 
 <body style="background-color: 	#F2F4FF">
-    <!-- Just an image -->
+    <!-- Just an Navbar -->
     <nav class="navbar navbar-light" style="background-color: #ffffff;">
+        <a href="home.html" role="button" aria-pressed="true"><i class="fas fa-arrow-left fa-lg text-primary-50"
+                style="position: absolute; margin-top: -10px;"></i>
+        </a>
         <a class="navbar-brand mx-auto" href="#">
             <img src="img/logo1.png" width="40" height="40" alt="">
         </a>
     </nav>
+    <!-- Just an Navbar End -->
+
 
     <div class="jumbotron-fluid">
         <img src="img/jumbotron-bg.png" alt="" style="width: 100%;">
     </div>
     <div class="container text-center">
-        <img src="img/shaarawy.jpg" id="foto-user"
-            style="width: 20%; border-radius: 50%; margin-top: -60%; border: 2px solid #555;">
+        <img src="img/shaarawy.jpg" id="foto-user" class="rounded"
+            style="width: 17%; margin-top: -60%; border: 2px solid #555;">
         <h6 class="display-4"
             style="font-family: 'Roboto Condensed', sans-serif; font-size: 90%; margin-top: -20%; color: #F2F4FF;">
             <span id="name-user"></span><br><span id="no-induk-user"></span>
@@ -73,7 +78,7 @@
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="kepegawaian">
-                    <div class="card mt-2">
+                    <div class="card mt-2 mb-2">
                         <div class="card-header text-center">
                             BIODATA KEPEGAWAIAN
                         </div>
@@ -82,39 +87,35 @@
                     </div>
                 </div>
             </div>
-
-            <a href="home.html" class="btn btn-primary btn-sm active" role="button" aria-pressed="true"
-                style="margin-left: 1%; margin-top: 5%;"><i
-                    class="fas fa-arrow-left fa-sm text-white-50 mr-2"></i>Kembali</a>
         </div>
     </div>
 
 
 
     <script>
-        verifikasi_token();
-        var status_token = localStorage.getItem('status_token');
-        if (status_token === "success") {
-            $(document).ready(function () {
+        // verifikasi_token();
+        // var status_token = localStorage.getItem('status_token');
+        // if (status_token === "success") {
+        $(document).ready(function () {
 
-                let email = localStorage.getItem("email");
-                let token = localStorage.getItem("token");
+            let email = localStorage.getItem("email");
+            let token = localStorage.getItem("token");
 
-                if (email) {
-                    $('#name-user').html(localStorage.getItem("name"))
-                    $('#no-induk-user').html(
-                        `${localStorage.getItem("status_no_induk")} ${localStorage.getItem("no_induk")}`)
-                    $('#foto-user').attr('src', localStorage.getItem('foto_profil'))
+            if (email) {
+                $('#name-user').html(localStorage.getItem("name"))
+                $('#no-induk-user').html(
+                    `${localStorage.getItem("status_no_induk")} ${localStorage.getItem("no_induk")}`)
+                $('#foto-user').attr('src', localStorage.getItem('foto_profil'))
 
-                    $.ajax({
-                        url: `${baseUrl}/profile`,
-                        data: {
-                            token: token
-                        },
-                        type: "GET",
-                        dataType: "json",
-                        success: function (response) {
-                            $('#data-profile').html(`
+                $.ajax({
+                    url: `${baseUrl}/profile`,
+                    data: {
+                        token: token
+                    },
+                    type: "GET",
+                    dataType: "json",
+                    success: function (response) {
+                        $('#data-profile').html(`
             <div class="row">
                 <div class="col-md-12"><label class="labels">Email APPRES</label><input type="text" class="form-control"
                         value="${response.data.email}" disabled></div>
@@ -131,7 +132,7 @@
             `)
 
 
-                            $('#data-kepegawaian').html(`
+                        $('#data-kepegawaian').html(`
             <div class="row">
                 <div class="col-md-12"><label class="labels">Jabatan</label><input type="text" class="form-control"
                         value="${response.data.jabatan}" disabled></div>
@@ -153,16 +154,16 @@
 
             </div>
             `)
-                        },
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            alert(JSON.stringify(XMLHttpRequest));
-                        }
-                    })
-                } else {
-                    window.location.href = `${indexHref}`
-                }
-            });
-        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(JSON.stringify(XMLHttpRequest));
+                    }
+                })
+            } else {
+                window.location.href = `${indexHref}`
+            }
+        });
+        // }
     </script>
 
     <!-- Optional JavaScript; choose one of the two! -->
