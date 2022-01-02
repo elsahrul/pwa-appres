@@ -198,6 +198,7 @@
 
                     const urlParams = new URLSearchParams(window.location.search);
                     const myParam = urlParams.get('status');
+                    const myParamMessage = urlParams.get('message');
 
                     if (myParam == "absen_masuk_success") {
                         Swal.fire({
@@ -212,6 +213,14 @@
                             title: "Berhasil",
                             text: "Berhasil absen pulang",
                             icon: "success"
+                        }).then(function () {
+                            window.history.pushState({}, document.title, `${locationHref}`);
+                        });
+                    } else if (myParam == "absen_masuk_failed" || myParam == "absen_pulang_failed") {
+                        Swal.fire({
+                            title: "Gagal",
+                            text: myParamMessage,
+                            icon: "error"
                         }).then(function () {
                             window.history.pushState({}, document.title, `${locationHref}`);
                         });
