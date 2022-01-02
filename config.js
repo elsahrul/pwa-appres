@@ -1,6 +1,7 @@
-var baseUrl = "https://192.168.90.102/admin-absensi/api";
-var locationHref = "/pwa-absensi/home.html";
-var indexHref = "/pwa-absensi/index.html";
+var baseUrl = "https://admin.elsahrul.my.id/api";
+var locationHref = `${window.location.origin}/home.html`;
+var indexHref = `${window.location.origin}/index.html`;
+var accessKeyPositionStack = "d1965467c2c42ba40dc286145d76f742";
 
 
 // function verifikasi_token() {

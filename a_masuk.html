@@ -41,23 +41,19 @@
 </head>
 
 <body style="background-color: 	#F2F4FF">
-    <!-- Just an Navbar -->
+    <!-- Just an image -->
     <nav class="navbar navbar-light" style="background-color: #ffffff;">
-        <a href="home.html" role="button" aria-pressed="true"><i class="fas fa-arrow-left fa-lg text-primary-50"
-                style="position: absolute; margin-top: -10px;"></i>
-        </a>
         <a class="navbar-brand mx-auto" href="#">
             <img src="img/logo1.png" width="40" height="40" alt="">
         </a>
     </nav>
-    <!-- Just an Navbar End -->
 
     <div class="jumbotron-fluid">
         <img src="img/jumbotron.png" style="width: 100%;">
     </div>
 
     <div class="container">
-        <div class="card text-center mt-5 mb-5" style="width: 100%; margin-left:1%; height: 570px;">
+        <div class="card text-center mt-5" style="width: 100%; margin-left:1%; height: 570px;">
             <div class="card-header" style="border-top-right-radius: 5px; border-top-left-radius: 5px;">
                 <strong> Scan Absen Masuk </strong>
             </div>
@@ -73,6 +69,7 @@
             </div>
         </div>
 
+        <br>
         <div class="card text-center" style="width: 100%; margin-left:1%;">
             <div class="card-header" style="border-top-right-radius: 5px; border-top-left-radius: 5px;">
                 <strong> Keterangan</strong>
@@ -81,6 +78,10 @@
                 <h5 id="result"></h5>
             </div>
         </div>
+
+        <br>
+        <a href="home.html" class="btn btn-primary btn-sm active" role="button" aria-pressed="true"
+            style="margin-left: 1%;"><i class="fas fa-arrow-left fa-sm text-white-50 mr-2"></i>Kembali</a>
     </div>
 
     <script>
@@ -136,6 +137,23 @@
         weekdays[5] = "Fri";
         weekdays[6] = "Sat";
         let nameOfDay = weekdays[date.getDay()];
+        let coordinate = {}
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else { 
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            coordinate = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+            }
+        }
+
 
         function startScanner() {
             Quagga.init({
@@ -223,10 +241,15 @@
                 let arr = getDayOnScan.split(".")
 
                 if (arr[0] == nameOfDay) {
+
+                    getLocation()
+
                     $.ajax({
                         url: `${baseUrl}/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_masuk`,
                         data: {
-                            expired_barcode: arr[1]
+                            expired_barcode: arr[1],
+                            latitude: coordinate.latitude,
+                            longitude: coordinate.longitude
                         },
                         type: "POST",
                         dataType: "json",
