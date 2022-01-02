@@ -147,10 +147,9 @@
                         .substr(2, 9));
                     token = localStorage.getItem("token");
                     $.ajax({
-                        url: `${baseUrl}/token/insert_token`,
+                        url: `${baseUrl}/token/insert_token?email=${localStorage.getItem("email")}`,
                         data: {
-                            token: token,
-                            email: localStorage.getItem("email")
+                            token: token
                         },
                         type: "POST",
                         dataType: "json",
@@ -166,10 +165,9 @@
 
             var token = localStorage.getItem('token');
             $.ajax({
-                url: `${baseUrl}/token/verifikasi_token`,
+                url: `${baseUrl}/token/verifikasi_token?email=${localStorage.getItem("email")}`,
                 data: {
-                    token: token,
-                    email: localStorage.getItem("email")
+                    token: token
                 },
                 type: "POST",
                 dataType: "json",
