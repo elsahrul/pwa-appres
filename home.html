@@ -149,7 +149,8 @@
                     $.ajax({
                         url: `${baseUrl}/token/insert_token`,
                         data: {
-                            token: token
+                            token: token,
+                            email: localStorage.getItem("email")
                         },
                         type: "POST",
                         dataType: "json",
@@ -167,7 +168,8 @@
             $.ajax({
                 url: `${baseUrl}/token/verifikasi_token`,
                 data: {
-                    token: token
+                    token: token,
+                    email: localStorage.getItem("email")
                 },
                 type: "POST",
                 dataType: "json",

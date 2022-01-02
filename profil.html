@@ -110,7 +110,8 @@
                 $.ajax({
                     url: `${baseUrl}/profile`,
                     data: {
-                        token: token
+                        token: token,
+                        email: localStorage.getItem("email")
                     },
                     type: "GET",
                     dataType: "json",
