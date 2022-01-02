@@ -232,6 +232,7 @@
             //     }
             // });
 
+            getLocation()
 
             Quagga.onDetected(function (result) {
                 console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
@@ -241,11 +242,9 @@
                 let arr = getDayOnScan.split(".")
 
                 if (arr[0] == nameOfDay) {
-
-                    getLocation()
-
+                    
                     $.ajax({
-                        url: `${baseUrl}/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_masuk`,
+                        url: `${baseUrl}/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_masuk?email=${localStorage.getItem("email")}`,
                         data: {
                             expired_barcode: arr[1],
                             latitude: coordinate.latitude,

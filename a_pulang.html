@@ -128,6 +128,7 @@
         weekdays[5] = "Fri";
         weekdays[6] = "Sat";
         let nameOfDay = weekdays[date.getDay()];
+        let coordinate = {}
 
         function startScanner() {
             Quagga.init({
@@ -182,6 +183,7 @@
                 _scannerIsRunning = true;
             });
 
+            getLocation()
 
             Quagga.onDetected(function (result) {
                 console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
@@ -193,7 +195,7 @@
 
                 if (arr[0] == nameOfDay) {
                     $.ajax({
-                        url: `${baseUrl}/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_pulang`,
+                        url: `${baseUrl}/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_pulang?email=${localStorage.getItem("email")}`,
                         data: {
                             expired_barcode: arr[1]
                         },
