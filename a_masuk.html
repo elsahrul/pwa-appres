@@ -244,7 +244,10 @@
                 if (arr[0] == nameOfDay) {
                     
                     $.ajax({
-                        url: `${baseUrl}/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_masuk?email=${localStorage.getItem("email")}`,
+                        url: `${baseUrl}/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_masuk`,
+                        headers: {
+                            "Custom-Authorization": localStorage.getItem("email")
+                        },
                         data: {
                             expired_barcode: arr[1],
                             latitude: coordinate.latitude,

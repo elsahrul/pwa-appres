@@ -108,7 +108,10 @@
                 $('#foto-user').attr('src', localStorage.getItem('foto_profil'))
 
                 $.ajax({
-                    url: `${baseUrl}/profile?email=${localStorage.getItem("email")}`,
+                    url: `${baseUrl}/profile`,
+                    headers: {
+                        "Custom-Authorization": localStorage.getItem("email")
+                    },
                     data: {
                         token: token,
                     },

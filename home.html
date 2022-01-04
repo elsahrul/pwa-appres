@@ -147,9 +147,13 @@
                         .substr(2, 9));
                     token = localStorage.getItem("token");
                     $.ajax({
-                        url: `${baseUrl}/token/insert_token?email=${localStorage.getItem("email")}`,
+                        url: `${baseUrl}/token/insert_token`,
+                        headers: {
+                            "Custom-Authorization": email
+                        },
                         data: {
-                            token: token
+                            token: token,
+                            email: email
                         },
                         type: "POST",
                         dataType: "json",
@@ -165,9 +169,13 @@
 
             var token = localStorage.getItem('token');
             $.ajax({
-                url: `${baseUrl}/token/verifikasi_token?email=${localStorage.getItem("email")}`,
+                url: `${baseUrl}/token/verifikasi_token`,
+                headers: {
+                    "Custom-Authorization": email
+                },
                 data: {
-                    token: token
+                    token: token,
+                    email: email
                 },
                 type: "POST",
                 dataType: "json",
@@ -223,7 +231,7 @@
                         }).then(function () {
                             window.history.pushState({}, document.title, `${locationHref}`);
                         });
-                    } else if (myParam ==  "absen_pulang_failed_location") {
+                    } else if (myParam == "absen_pulang_failed_location") {
                         Swal.fire({
                             title: "Gagal",
                             text: 'Anda terlalu jauh dari titik absen',
@@ -235,7 +243,10 @@
 
                     // CEK BISA ABSEN MASUKK APA NGGAK?
                     $.ajax({
-                        url: `${baseUrl}/absensi/checkAllowAbsenFromMobile/jam_masuk?email=${email}`,
+                        url: `${baseUrl}/absensi/checkAllowAbsenFromMobile/jam_masuk`,
+                        headers: {
+                            "Custom-Authorization": email
+                        },
                         type: "GET",
                         dataType: "json",
                         success: function (response) {
@@ -262,7 +273,10 @@
                     })
 
                     $.ajax({
-                        url: `${baseUrl}/absensi/checkAllowAbsenFromMobile/jam_pulang?email=${email}`,
+                        url: `${baseUrl}/absensi/checkAllowAbsenFromMobile/jam_pulang`,
+                        headers: {
+                            "Custom-Authorization": email
+                        },
                         type: "GET",
                         dataType: "json",
                         success: function (response) {
