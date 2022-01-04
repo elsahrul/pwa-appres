@@ -207,14 +207,12 @@
                         success: function (response) {
                             console.log(response)
                             if (response.status == "success") {
-                                console.warn("success absen")
-
                                 window.location.href = `${locationHref}?status=absen_pulang_success`
                             } else {
-                                console.warn("failed absen")
-
-                                window.location.href = `${locationHref}?status=absen_pulang_failed_location`
-
+                                if (response.is_redirect) {
+                                    window.location.href = `${locationHref}?status=absen_pulang_failed&message=${response.message}`
+                                }
+                                
                                 $('#absen-message').html(
                                     `<div class="alert alert-danger" role="alert">${response.message}</div>`
                                 )
