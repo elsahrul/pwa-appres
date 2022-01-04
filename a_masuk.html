@@ -76,6 +76,8 @@
             </div>
             <div class="card-body">
                 <h5 id="result"></h5>
+
+                <h5 id="coordinate-now" class="mt-4"></h5>
             </div>
         </div>
 
@@ -152,6 +154,8 @@
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
             }
+
+            $('#coordinate-now').html(`${position.coords.latitude}, ${position.coords.longitude}`)
         }
 
         function startScanner() {
