@@ -197,7 +197,7 @@
                     $.ajax({
                         url: `${baseUrl}/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_pulang`,
                         headers: {
-                            "Custom-Authorization": localStorage.getItem("email")
+                            'Custom-Authorization': localStorage.getItem("email")
                         },
                         data: {
                             expired_barcode: arr[1]
