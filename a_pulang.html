@@ -143,6 +143,7 @@
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
             }
+        }
         
 
         function startScanner() {
@@ -216,7 +217,9 @@
                             'Authorization': localStorage.getItem("email")
                         },
                         data: {
-                            expired_barcode: arr[1]
+                            expired_barcode: arr[1],
+                            latitude: coordinate.latitude,
+                            longitude: coordinate.longitude
                         },
                         type: "POST",
                         dataType: "json",
