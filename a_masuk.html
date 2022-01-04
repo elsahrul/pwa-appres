@@ -257,7 +257,7 @@
                         success: function (response) {
                             console.log(response)
                             if (response.status == "success") {
-                                window.location.href = `${locationHref}?status=absen_masuk_success`
+                                window.location.href = `${locationHref}?status=absen_masuk_success&message=${response.message}`
                             } else {
                                 if (response.is_redirect) {
                                     window.location.href = `${locationHref}?status=absen_masuk_failed&message=${response.message}`

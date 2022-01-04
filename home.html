@@ -208,18 +208,10 @@
                     const myParam = urlParams.get('status');
                     const myMessage = urlParams.get('message');
 
-                    if (myParam == "absen_masuk_success") {
+                    if (myParam == "absen_masuk_success" || myParam == "absen_pulang_success") {
                         Swal.fire({
                             title: "Berhasil",
-                            text: "Berhasil absen masuk",
-                            icon: "success"
-                        }).then(function () {
-                            window.history.pushState({}, document.title, `${locationHref}`);
-                        });
-                    } else if (myParam == "absen_pulang_success") {
-                        Swal.fire({
-                            title: "Berhasil",
-                            text: "Berhasil absen pulang",
+                            text: myMessage,
                             icon: "success"
                         }).then(function () {
                             window.history.pushState({}, document.title, `${locationHref}`);

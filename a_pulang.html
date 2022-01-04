@@ -226,7 +226,7 @@
                         success: function (response) {
                             console.log(response)
                             if (response.status == "success") {
-                                window.location.href = `${locationHref}?status=absen_pulang_success`
+                                window.location.href = `${locationHref}?status=absen_pulang_success&message=${response.message}`
                             } else {
                                 if (response.is_redirect) {
                                     window.location.href =
