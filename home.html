@@ -227,7 +227,7 @@
                         Swal.fire({
                             title: "Gagal absen",
                             text: 'Anda terlalu jauh dari titik absen',
-                            icon: "success"
+                            icon: "warning"
                         }).then(function () {
                             window.history.pushState({}, document.title, `${locationHref}`);
                         });
@@ -235,7 +235,7 @@
                         Swal.fire({
                             title: "Gagal",
                             text: 'Anda terlalu jauh dari titik absen',
-                            icon: "success"
+                            icon: "warning"
                         }).then(function () {
                             window.history.pushState({}, document.title, `${locationHref}`);
                         });
