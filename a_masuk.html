@@ -128,6 +128,7 @@
             navigator.msGetUserMedia || navigator.oGetUserMedia;
         var _scannerIsRunning = false;
         var res = document.getElementById("result")
+        var coordinateNow = document.getElementById("coordinate-now")
 
         let date = new Date();
         let weekdays = new Array(7);
@@ -154,8 +155,6 @@
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
             }
-
-            $('#coordinate-now').html(`${position.coords.latitude}, ${position.coords.longitude}`)
         }
 
         function startScanner() {
@@ -245,6 +244,8 @@
                 if (arr[0] == nameOfDay) {
 
                     getLocation()
+
+                    coordinateNow.innerText = `Koordinat : ${position.coords.latitude}, ${position.coords.longitude}`
                     
                     $.ajax({
                         url: `${baseUrl}/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_masuk`,
