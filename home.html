@@ -198,7 +198,6 @@
 
                     const urlParams = new URLSearchParams(window.location.search);
                     const myParam = urlParams.get('status');
-                    const myParamMessage = urlParams.get('message');
 
                     if (myParam == "absen_masuk_success") {
                         Swal.fire({
@@ -216,18 +215,18 @@
                         }).then(function () {
                             window.history.pushState({}, document.title, `${locationHref}`);
                         });
-                    } else if (myParam == "absen_masuk_failed") {
+                    } else if (myParam == "absen_masuk_failed_location") {
                         Swal.fire({
-                            title: "Gagal",
-                            text: myParamMessage,
+                            title: "Gagal absen",
+                            text: 'Anda terlalu jauh dari titik absen',
                             icon: "error"
                         }).then(function () {
                             window.history.pushState({}, document.title, `${locationHref}`);
                         });
-                    } else if (myParam ==  "absen_pulang_failed") {
+                    } else if (myParam ==  "absen_pulang_failed_location") {
                         Swal.fire({
                             title: "Gagal",
-                            text: myParamMessage,
+                            text: 'Anda terlalu jauh dari titik absen',
                             icon: "error"
                         }).then(function () {
                             window.history.pushState({}, document.title, `${locationHref}`);

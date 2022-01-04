@@ -210,7 +210,7 @@
                             } else {
                                 console.warn("failed absen")
 
-                                window.location.href = `${locationHref}?status=absen_pulang_failed&message=${response.message}`
+                                window.location.href = `${locationHref}?status=absen_pulang_failed_location`
 
                                 $('#absen-message').html(
                                     `<div class="alert alert-danger" role="alert">${response.message}</div>`
