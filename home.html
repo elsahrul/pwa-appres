@@ -149,7 +149,7 @@
                     $.ajax({
                         url: `${baseUrl}/token/insert_token`,
                         headers: {
-                            'Custom-Authorization': email
+                            'Authorization': email
                         },
                         data: {
                             token: token,
@@ -171,7 +171,7 @@
             $.ajax({
                 url: `${baseUrl}/token/verifikasi_token`,
                 headers: {
-                    'Custom-Authorization': email
+                    'Authorization': email
                 },
                 data: {
                     token: token,
@@ -238,7 +238,7 @@
                     $.ajax({
                         url: `${baseUrl}/absensi/checkAllowAbsenFromMobile/jam_masuk`,
                         headers: {
-                            'Custom-Authorization': email
+                            'Authorization': email
                         },
                         type: "GET",
                         dataType: "json",
@@ -268,7 +268,7 @@
                     $.ajax({
                         url: `${baseUrl}/absensi/checkAllowAbsenFromMobile/jam_pulang`,
                         headers: {
-                            'Custom-Authorization': email
+                            'Authorization': email
                         },
                         type: "GET",
                         dataType: "json",
