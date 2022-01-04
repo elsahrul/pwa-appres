@@ -232,8 +232,6 @@
             //     }
             // });
 
-            getLocation()
-
             Quagga.onDetected(function (result) {
                 console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
                 res.innerText = result.codeResult.code
@@ -242,6 +240,8 @@
                 let arr = getDayOnScan.split(".")
 
                 if (arr[0] == nameOfDay) {
+
+                    getLocation()
                     
                     $.ajax({
                         url: `${baseUrl}/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_masuk`,
