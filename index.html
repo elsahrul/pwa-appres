@@ -134,7 +134,7 @@
                         window.location.href = `${locationHref}`
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert(JSON.stringify(XMLHttpRequest));
+                        console.warn(JSON.stringify(XMLHttpRequest));
                     }
                 })
             })
