@@ -76,8 +76,6 @@
             </div>
             <div class="card-body">
                 <h5 id="result"></h5>
-
-                <h5 id="coordinate-now" class="mt-4">coordinate : </h5>
             </div>
         </div>
 
@@ -128,7 +126,6 @@
             navigator.msGetUserMedia || navigator.oGetUserMedia;
         var _scannerIsRunning = false;
         var res = document.getElementById("result")
-        var coordinateNow = document.getElementById("coordinate-now")
 
         let date = new Date();
         let weekdays = new Array(7);
@@ -234,7 +231,6 @@
             //     }
             // });
             getLocation()
-            coordinateNow.innerHTML = `Koordinat : ${coordinate.latitude}, ${coordinate.longitude}`
 
             Quagga.onDetected(function (result) {
                 console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
@@ -246,8 +242,6 @@
                 if (arr[0] == nameOfDay) {
 
                     getLocation()
-
-                    coordinateNow.innerHTML = `Koordinat : ${coordinate.latitude}, ${coordinate.longitude}`
                     
                     $.ajax({
                         url: `${baseUrl}/absensi/absen_action/${nameOfDay}.${parseInt(Math.round(new Date() / 1000))}/jam_masuk`,

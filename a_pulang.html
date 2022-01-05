@@ -199,6 +199,7 @@
                 _scannerIsRunning = true;
             });
 
+            getLocation()
             Quagga.onDetected(function (result) {
                 console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
                 res.innerText = result.codeResult.code
