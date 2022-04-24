@@ -1,3 +1,1 @@
-### PWA Absensi
-
-> Ini web pwa absensi
+### Aplikasi Presensi PWA
